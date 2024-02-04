@@ -10,10 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import modelo.entidad.Coche;
+import modelo.entidad.Pasajero;
 import modelo.persistencia.interfaces.DaoCoche;
+import modelo.persistencia.interfaces.DaoPasajero;
 
-public class DaoCocheMySql implements DaoCoche{
-
+public class DaoPasajeroMySql implements DaoPasajero {
 	private Connection conexion;
 	
 	public boolean abrirConexion(){
@@ -43,28 +44,28 @@ public class DaoCocheMySql implements DaoCoche{
 	
 	
 	@Override
-	public boolean alta(Coche c) {
+	public boolean alta(Pasajero p) {
 		if(!abrirConexion()){
 			return false;
 		}
 		boolean alta = true;
 		
-		String query = "insert into coches (MARCA,MODELO,FABRICACION,KM) "
+		String query = "insert into pasajeros (nombre,edad,peso,id_coche) "
 				+ " values(?,?,?,?)";
 		try {
 			//preparamos la query con valores parametrizables(?)
 			PreparedStatement ps = conexion.prepareStatement(query);
-			ps.setString(1, c.getMarca());
-			ps.setString(2, c.getModelo());
-			ps.setDouble(3, c.getFabricacion());
-			ps.setDouble(4, c.getKm());
+			ps.setString(1, p.getNombre());
+			ps.setInt(2, p.getEdad());
+			ps.setInt(3, p.getPeso());
+			ps.setObject(4, p.getCoche());
 			
 			int numeroFilasAfectadas = ps.executeUpdate();
 			if(numeroFilasAfectadas == 0) {
 				alta = false;
 			}
 		} catch (SQLException e) {
-			System.out.println("alta -> Error al insertar: " + c);
+			System.out.println("alta -> Error al insertar: " + p);
 			alta = false;
 			e.printStackTrace();
 		} finally{
@@ -81,7 +82,7 @@ public class DaoCocheMySql implements DaoCoche{
 		}
 		
 		boolean borrado = true;
-		String query = "delete from coches where id = ?";
+		String query = "delete from pasajeros where id = ?";
 		try {
 			PreparedStatement ps = conexion.prepareStatement(query);
 			//sustituimos la primera interrgante por la id
@@ -101,20 +102,20 @@ public class DaoCocheMySql implements DaoCoche{
 	}
 
 	@Override
-	public boolean modificar(Coche c) {
+	public boolean modificar(Pasajero p) {
 		if(!abrirConexion()){
 			return false;
 		}
 		boolean modificado = true;
-		String query = "update COCHES set MARCA=?, MODELO=?, FABRICACION=?, KM=? WHERE ID=?";
+		String query = "update PASAJEROS set NOMBRE=?, EDAD=?, PESO=?, ID_COCHE=? WHERE ID=?";
 
 		try {
 			PreparedStatement ps = conexion.prepareStatement(query);
-			ps.setString(1, c.getMarca());
-			ps.setString(2, c.getModelo());
-            ps.setDouble(3, c.getFabricacion());
-			ps.setDouble(4, c.getKm());
-			ps.setInt(5, c.getId());
+			ps.setString(1, p.getNombre());
+			ps.setInt(2, p.getEdad());
+			ps.setInt(3, p.getPeso());
+			ps.setObject(4, p.getCoche().getId());
+			ps.setInt(5, p.getId());
 			
 			int numeroFilasAfectadas = ps.executeUpdate();
 			if(numeroFilasAfectadas == 0)
@@ -123,7 +124,7 @@ public class DaoCocheMySql implements DaoCoche{
 				modificado = true;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			System.out.println("modificar -> error al modificar el coche " + c);
+			System.out.println("modificar -> error al modificar " + p);
 			modificado = false;
 			e.printStackTrace();
 		} finally{
@@ -134,71 +135,147 @@ public class DaoCocheMySql implements DaoCoche{
 	}
 
 	@Override
-	public Coche obtener(int id) {
+	public Pasajero obtener(int id) {
 		if(!abrirConexion()){
 			return null;
 		}		
+		Pasajero pasajero = null;
 		Coche coche = null;
 		
-		String query = "select ID,MARCA,MODELO,FABRICACION,KM from coches "
-				+ "where id = ?";
+		String query = "SELECT p.id,p.nombre,p.edad,p.peso,p.id_coche,c.marca,c.modelo,c.fabricacion,c.km"
+				+ " FROM pasajeros AS p"
+				+ " LEFT JOIN coches AS c ON p.id_coche = c.id"
+				+ " WHERE p.id = ?";
 		try {
 			PreparedStatement ps = conexion.prepareStatement(query);
 			ps.setInt(1, id);
 			
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()){
+				pasajero = new Pasajero();
 				coche = new Coche();
-				coche.setId(rs.getInt(1));
-				coche.setMarca(rs.getString(2));
-				coche.setModelo(rs.getString(3));
-				coche.setFabricacion(rs.getInt(4));
-				coche.setKm(rs.getInt(5));
+				
+				pasajero.setId(rs.getInt(1));
+				pasajero.setNombre(rs.getString(2));
+				pasajero.setEdad(rs.getInt(3));
+				pasajero.setPeso(rs.getInt(4));
+				
+				coche.setId(rs.getInt(5));
+				coche.setMarca(rs.getString(6));
+				coche.setModelo(rs.getString(7));
+				coche.setFabricacion(rs.getInt(8));
+				coche.setKm(rs.getInt(9));
+				
+				pasajero.setCoche(coche);
 			}
 		} catch (SQLException e) {
-			System.out.println("obtener -> error al obtener el coche con id " + id);
+			System.out.println("obtener -> error al obtener el pasajero con id " + id);
+			System.out.println(e.getMessage());
+			System.out.println(query);
 			e.printStackTrace();
 		} finally {
 			cerrarConexion();
 		}
-		
-		
-		return coche;
+		return pasajero;
 	}
 
 	@Override
-	public List<Coche> listar() {
+	public List<Pasajero> listar() {
 		if(!abrirConexion()){
 			return null;
 		}		
-		List<Coche> listaCoches = new ArrayList<>();
+		List<Pasajero> listaPasajeros = new ArrayList<>();
 		
-		String query = "select ID,MARCA,MODELO,FABRICACION,KM from coches";
+		String query = "SELECT p.id,p.nombre,p.edad,p.peso,p.id_coche,c.marca,c.modelo,c.fabricacion,c.km"
+				+ " FROM pasajeros AS p"
+				+ " LEFT JOIN coches AS c ON p.id_coche = c.id";
 		try {
 			PreparedStatement ps = conexion.prepareStatement(query);
 			
 			ResultSet rs = ps.executeQuery();
 			
 			while(rs.next()){
+				Pasajero pasajero = new Pasajero();
 				Coche coche = new Coche();
-				coche.setId(rs.getInt(1));
-				coche.setMarca(rs.getString(2));
-				coche.setModelo(rs.getString(3));
-				coche.setFabricacion(rs.getInt(4));
-				coche.setKm(rs.getInt(5));
 				
-				listaCoches.add(coche);
+				pasajero.setId(rs.getInt(1));
+				pasajero.setNombre(rs.getString(2));
+				pasajero.setEdad(rs.getInt(3));
+				pasajero.setPeso(rs.getInt(4));
+				
+				coche.setId(rs.getInt(5));
+				coche.setMarca(rs.getString(6));
+				coche.setModelo(rs.getString(7));
+				coche.setFabricacion(rs.getInt(8));
+				coche.setKm(rs.getInt(9));
+				
+				pasajero.setCoche(coche);
+				
+				listaPasajeros.add(pasajero);
 			}
 		} catch (SQLException e) {
-			System.out.println("listar -> error al obtener los coches");
+			System.out.println("listar -> error al obtener los pasajeros");
+			System.out.println(e.getMessage());
+			System.out.println(query);
+			
 			e.printStackTrace();
 		} finally {
 			cerrarConexion();
 		}
 		
 		
-		return listaCoches;
+		return listaPasajeros;
 	}
+	
+	public List<Pasajero> listar(int idCoche) {
+		if(!abrirConexion()){
+			return null;
+		}		
+		List<Pasajero> listaPasajeros = new ArrayList<>();
+		
+		String query = "SELECT p.id,p.nombre,p.edad,p.peso,p.id_coche,c.marca,c.modelo,c.fabricacion,c.km"
+				+ " FROM pasajeros AS p"
+				+ " LEFT JOIN coches AS c ON p.id_coche = c.id"
+				+ " WHERE c.id = ?";
+		try {
+			PreparedStatement ps = conexion.prepareStatement(query);
+			ps.setInt(1, idCoche);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()){
+				Pasajero pasajero = new Pasajero();
+				Coche coche = new Coche();
+				
+				pasajero.setId(rs.getInt(1));
+				pasajero.setNombre(rs.getString(2));
+				pasajero.setEdad(rs.getInt(3));
+				pasajero.setPeso(rs.getInt(4));
+				
+				coche.setId(rs.getInt(5));
+				coche.setMarca(rs.getString(6));
+				coche.setModelo(rs.getString(7));
+				coche.setFabricacion(rs.getInt(8));
+				coche.setKm(rs.getInt(9));
+				
+				pasajero.setCoche(coche);
+				
+				listaPasajeros.add(pasajero);
+			}
+		} catch (SQLException e) {
+			System.out.println("listar -> error al obtener los pasajeros");
+			System.out.println(e.getMessage());
+			System.out.println(query);
+			
+			e.printStackTrace();
+		} finally {
+			cerrarConexion();
+		}
+		
+		
+		return listaPasajeros;
+	}
+	
 	
 	//Bloque estatico, los bloques estaticos son ejecutados
 	//por java JUSTO ANTES de ejecutar el metodo main()

@@ -7,8 +7,20 @@ public class Pasajero {
 	String nombre;
 	int edad;
 	int peso;
+	Coche coche;
 	
 	
+	
+	public Coche getCoche() {
+		return coche;
+	}
+
+
+	public void setCoche(Coche coche) {
+		this.coche = coche;
+	}
+
+
 	public int getId() {
 		return id;
 	}
@@ -70,7 +82,7 @@ public class Pasajero {
 
 	@Override
 	public String toString() {
-		return "pasajero [id=" + id + ", nombre=" + nombre + ", edad=" + edad + ", peso=" + peso + "]";
+		return "pasajero [id=" + id + ", nombre=" + nombre + ", edad=" + edad + ", peso=" + peso + ", coche=" + coche + "]\n";
 	}
 	
 	

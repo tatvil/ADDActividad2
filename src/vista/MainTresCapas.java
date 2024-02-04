@@ -3,7 +3,9 @@ package vista;
 import java.util.Scanner;
 
 import modelo.entidad.Coche;
+import modelo.entidad.Pasajero;
 import modelo.negocio.GestorCoche;
+import modelo.negocio.GestorPasajero;
 
 public class MainTresCapas {
 
@@ -13,6 +15,9 @@ public class MainTresCapas {
 		Scanner sc = new Scanner(System.in);
 		boolean fin = false;
 		GestorCoche gc = new GestorCoche();
+		GestorPasajero gp = new GestorPasajero();
+		Coche c = new Coche();
+		Pasajero p = new Pasajero();
 		
 		do {
 			menu();
@@ -25,7 +30,6 @@ public class MainTresCapas {
 					int fabricacion = sc.nextInt();
 					int km = sc.nextInt();
 					
-					Coche c = new Coche();
 					c.setMarca(marca);
 					c.setModelo(modelo);
 					c.setFabricacion(fabricacion);
@@ -95,6 +99,10 @@ public class MainTresCapas {
 					System.out.println(gc.listar());
 					break;
 					
+				case 6:
+					crudPasajeros();
+					break;
+					
 				case 0:
 					fin = true;
 					break;
@@ -112,7 +120,145 @@ public class MainTresCapas {
 		System.out.println("3. Consulta coche por ID");
 		System.out.println("4. Modificar coche por ID");
 		System.out.println("5. Listado de coches");
+		System.out.println("6. Asignar pasajero a coche");
 		System.out.println("0. Terminar el programa");
 	}
+	
+	private static void menuPasajeros() {
+		System.out.println("Elija una opcion:");
+		System.out.println("1. Crear nuevo pasajero");
+		System.out.println("2. Borrar pasajero por id");
+		System.out.println("3. Consulta pasajero por id");
+		System.out.println("4. Listar todos los pasajeros");
+		System.out.println("5. Añadir pasajero a coche"); // El programa nos pedirá un id de un pasajero y el id de un coche, y lo añadirá al coche a nivel de base de datos. Sería una buena opción mostrar todos los coches disponibles.
+		System.out.println("6. Eliminar pasajero de un coche"); // El programa nos pedirá un id de un pasajero y lo eliminará del coche a nivel de base de datos. Sería una buena opción mostrar todos los coches y sus pasajeros asociados.
+		System.out.println("7. Listar todos los pasajeros de un coche"); // El programa pedirá el id de un coche, y nos mostrará todos los pasajeros asociados a él.
+		System.out.println("0. Atras (menu coches)");
+	}
+	
+	private static void crudPasajeros() {
+		Scanner sp = new Scanner(System.in);
+		boolean finPasajeros = false;
+		GestorPasajero gp = new GestorPasajero();
+		do {
+			
+			menuPasajeros();
+			
+			int opcionP = sp.nextInt();
+			
+			switch (opcionP) {
+				case 1:
+					System.out.println("1. CREAR NUEVO PASAJERO");
+	                System.out.println("Introduzca los datos del pasajero (nombre, edad, peso)");
+	                String nombre = sp.next();
+	                int edad = sp.nextInt();
+	                int peso = sp.nextInt();
+	                
+	                Pasajero p = new Pasajero();
+	                p.setNombre(nombre);
+	                p.setEdad(edad);
+	                p.setPeso(peso);
+	                
+	                int altaP = gp.alta(p);
+	                if(altaP == 0) {
+	                    System.out.println("Alta de " + p);
+	                }else if(altaP == 1) {
+	                    System.out.println("Error de conexión con la BBDD");
+	                }else if(altaP == 2){
+	                    System.out.println("El usuario tiene menos de tres carateres");
+	                }
+	                break;
+	                
+				case 2:
+					System.out.println("2. BORRAR PASAJERO");
+					System.out.println("Introduzca los datos del pasajero a borrar (id)");
+					
+					int id = sp.nextInt();
+					
+				
+					boolean baja = gp.baja(id);
+					if(baja) {
+						System.out.println("Baja de " + id);
+					}else {
+						System.out.println("Error de conexión con la BBDD");
+					}
+					break;
+					
+				case 3:
+					System.out.println("3. CONSULTAR PASAJERO");
+					System.out.println("Introduzca los datos del pasajero a consultar (id)");
+					id = sp.nextInt();
+
+					Pasajero pasajero = gp.obtener(id);
+					if (pasajero != null) {
+						System.out.println(pasajero);
+					} else {
+						System.out.println("Error de conexión con la BBDD");
+					}
+					break;
+	                
+				case 4:
+					System.out.println("4. LISTAR PASAJEROS");
+					System.out.println("Listado de pasajeros");
+					System.out.println(gp.listar());
+					break;
+				
+				case 5:
+					System.out.println("5. AÑADIR PASAJERO A COCHE");
+					System.out.println("Introduzca el id del pasajero y el id del coche");
+					int idPasajero = sp.nextInt();
+					int idCoche = sp.nextInt();
+
+					p = new Pasajero();
+					gp = new GestorPasajero();
+					GestorCoche gc = new GestorCoche();
+					
+					Coche coche = gc.obtener(idCoche);
+					p = gp.obtener(idPasajero);
+					
+					p.setCoche(coche);
+					
+					
+					int modificado = gp.modificar(p);
+					if (modificado == 0) {
+						System.out.println("Coche modificado");
+					} else {
+						System.out.println("Error no se ha podido modificar el registro");
+                    }
+					break;
+					
+				case 6:
+					System.out.println("6. ELIMINAR PASAJERO DE COCHE");
+					System.out.println("Introduzca el id del pasajero");
+					idPasajero = sp.nextInt();
+
+					p = gp.obtener(idPasajero);
+					p.setCoche(null);
+
+					modificado = gp.modificar(p);
+					if (modificado == 0) {
+						System.out.println("Coche modificado");
+					} else {
+						System.out.println("Error no se ha podido modificar el registro");
+					}
+					break;
+					
+				case 7:
+					System.out.println("7. LISTAR PASAJEROS DE UN COCHE");
+					System.out.println("Introduzca el id del coche");
+					idCoche = sp.nextInt();
+
+					System.out.println("Listado de pasajeros");
+					System.out.println(gp.listar(idCoche));
+
+					break;
+					
+				case 0:
+					finPasajeros = true;
+					break;
+			}
+			
+			}while(!finPasajeros);
+		}
 
 }
