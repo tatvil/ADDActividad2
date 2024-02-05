@@ -55,6 +55,6 @@ Para la actividad se recomienda que los alumnos repartan las tareas a realizar, 
 
 Se recomienda el uso de GITHUB para realizar el trabajo y dejar el código fuente en dicha plataforma, ya que, si hay problemas con la entrega al subirla a la plataforma de EDIX, queda constancia en GITHUB de los commits hechos. Se puede subir el código fuente también comprimido a la plataforma en su lugar si así se prefiere, pero en este caso, el fichero PDF y el código comprimido (fichero .zip o .7z) deben de ir por separado.
 
-### Importante
+## IMPORTANTE
 Funciona con XAMPP
 Para que funcione, primero hay que crear la base de datos, para ello hay que ejecutar "CrearMySQL"

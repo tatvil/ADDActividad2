@@ -24,6 +24,7 @@ public class MainTresCapas {
 			int opcion = sc.nextInt();
 			switch (opcion) {
 				case 1:
+					System.out.println("1. AÑADIR NUEVO COCHE");
 					System.out.println("Introduzca los datos del coche (marca, modelo, fabricacion y km)");
 					String marca = sc.next();
 					String modelo = sc.next();
@@ -46,6 +47,7 @@ public class MainTresCapas {
 					break;
 					
 				case 2:
+					System.out.println("2. BORRAR COCHE");
 					System.out.println("Introduzca los datos del coche a borrar (id)");
 					int id = sc.nextInt();
 					
@@ -59,6 +61,7 @@ public class MainTresCapas {
 					break;
 					
 				case 3:
+					System.out.println("3. CONSULTAR COCHE");
 					System.out.println("Introduzca los datos del coche a consultar (id)");
 					id = sc.nextInt();
 
@@ -71,6 +74,7 @@ public class MainTresCapas {
 					break;
 					
 				case 4:
+					System.out.println("4. MODIFICAR COCHE");
 					System.out.println(
 							"Introduzca los datos del coche a modificar (id, marca, modelo, fabricacion y km)");
 					id = sc.nextInt();
@@ -95,7 +99,7 @@ public class MainTresCapas {
 					break;
 					
 				case 5:
-					System.out.println("Listado de coches");
+					System.out.println("5. LISTADO DE COCHES");
 					System.out.println(gc.listar());
 					break;
 					
