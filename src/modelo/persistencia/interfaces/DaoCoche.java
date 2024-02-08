@@ -15,7 +15,7 @@ public interface DaoCoche {
 	boolean alta(Coche c);
 	boolean baja(int id);
 	/**
-	 * Metodo que modifica un coce en la BBDD. La modificacion sera partir
+	 * Metodo que modifica un coche en la BBDD. La modificacion sera partir
 	 * del ID que contenga la persona.
 	 * @param c el coche a modificar
 	 * @return true en caso de que se haya modificado. False en caso de error

@@ -1,5 +1,7 @@
 package modelo.persistencia;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.Connection;
 
 import java.sql.DriverManager;
@@ -8,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import modelo.entidad.Coche;
 import modelo.entidad.Pasajero;
@@ -18,17 +21,42 @@ public class DaoPasajeroMySql implements DaoPasajero {
 	private Connection conexion;
 	
 	public boolean abrirConexion(){
-		String url = "jdbc:mysql://localhost:3306/AADActividad2";
-		String usuario = "root";
-		String password = "";
+//		String url = "jdbc:mysql://localhost:3306/AADActividad2";
+//		String usuario = "root";
+//		String password = "";
+		Properties properties = new Properties();
+		String url;
+		String usuario;
+		String password;
+
 		try {
-			conexion = DriverManager.getConnection(url,usuario,password);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
+		    // Cargar el archivo de configuración
+		    properties.load(new FileInputStream("config.properties"));
+
+		    // Obtener los valores de la configuración
+		    String dbUrl = properties.getProperty("db.url");
+		    String dbName = properties.getProperty("db.dbname");
+		    usuario = properties.getProperty("db.usuario");
+		    password = properties.getProperty("db.contrasena");
+
+		    // Concatenar la URL de la base de datos con el nombre de la base de datos
+		    url = dbUrl + dbName;
+		    
+		} catch (IOException e) {
+		    e.printStackTrace();
+		    return false; // Indica que no se pudo establecer la conexión debido a un error de configuración
 		}
+
+		try {
+		    conexion = DriverManager.getConnection(url, usuario, password);
+		} catch (SQLException e) {
+		    e.printStackTrace();
+		    return false; // Indica que no se pudo establecer la conexión debido a un error de conexión a la base de datos
+		}
+
+		// La conexión se estableció correctamente
 		return true;
+
 	}
 	
 	public boolean cerrarConexion(){

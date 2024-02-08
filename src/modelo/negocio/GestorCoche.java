@@ -18,8 +18,9 @@ public class GestorCoche {
 	 * Método que da de alta un coche en base de datos. El id del coche debe de ser unico, pero lo gestiona la base de datos. El 
 	 * modelo y la marca no pueden estar vacios.
 	 * @param c el coche a dar de alta
-	 * @return 0 en caso de que hayamos dado de alta al coche, 1 en caso
-	 * de algun error de conexión con la bbdd y 2 si la marca o modelo tienen estan vacios
+	 * @return 0 en caso de que hayamos dado de alta al coche, 
+	 * 		1 en caso de algun error de conexión con la bbdd y 
+	 * 		2 si la marca o modelo tienen estan vacios
 	 */
 	public int alta(Coche c){
 		if(c.getMarca().length() > 0 && c.getModelo().length() > 0) {
@@ -44,7 +45,8 @@ public class GestorCoche {
 	 * Método que da modifica un coche en base de datos. La marcca y el modelo no pueden estar vacios
 	 * La modificarcion sera a partir del id del coche
 	 * @param c el coche a modificar. Dentro tiene que tener el id
-	 * @return 0 en caso de que hayamos modificado el coche, 1 en caso de algun error de conexion con la bbdd y 
+	 * @return 0 en caso de que hayamos modificado el coche, 
+	 * 1 en caso de algun error de conexion con la bbdd y 
 	 * 2 en caso de que la marca o el modelo esten vacios
 	 */
 	public int modificar(Coche c){

@@ -169,7 +169,7 @@ public class MainTresCapas {
 	                }else if(altaP == 1) {
 	                    System.out.println("Error de conexión con la BBDD");
 	                }else if(altaP == 2){
-	                    System.out.println("El usuario tiene menos de tres carateres");
+	                    System.out.println("Los datos del pasajero son incorrectos");
 	                }
 	                break;
 	                
@@ -225,10 +225,16 @@ public class MainTresCapas {
 					
 					int modificado = gp.modificar(p);
 					if (modificado == 0) {
-						System.out.println("Coche modificado");
-					} else {
-						System.out.println("Error no se ha podido modificar el registro");
-                    }
+						System.out.println("Modificado " + p);
+					} else if (modificado == 1) {
+						System.out.println("Error de conexión con la BBDD");
+					} else if (modificado == 2) {
+						System.out.println("Los datos del pasajero son incorrectos");
+					} else if (modificado == 3) {
+						System.out.println("El pasajero no existe");
+					} else if (modificado == 4) {
+						System.out.println("No se puede modificar, porque dicho coche no existe");
+					}
 					break;
 					
 				case 6:
