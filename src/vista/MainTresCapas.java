@@ -69,7 +69,7 @@ public class MainTresCapas {
 					if (coche != null) {
 						System.out.println(coche);
 					} else {
-						System.out.println("Error de conexión con la BBDD");
+						System.out.println("El coche no existe");
 					}
 					break;
 					
