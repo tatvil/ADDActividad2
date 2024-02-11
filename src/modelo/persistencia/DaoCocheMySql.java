@@ -15,6 +15,15 @@ import java.util.Properties;
 import modelo.entidad.Coche;
 import modelo.persistencia.interfaces.DaoCoche;
 
+/**
+ * Clase que gestiona la persistencia de los coches en la base de datos MySQL
+ * La clase implementa la interfaz DaoCoche
+ * Persistencia significa que se encarga de dar de alta, baja, modificar, obtener y listar coches en la base de datos
+ * La persistencia de los coches se hará en una tabla llamada coches
+ * La tabla coches tendrá los siguientes campos: id, marca, modelo, fabricacion, km
+ * La tabla coches tendrá un campo id que será la clave primaria y se generará de manera automática
+ * 
+ */
 public class DaoCocheMySql implements DaoCoche{
 
 	private Connection conexion;

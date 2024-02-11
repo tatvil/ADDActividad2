@@ -2,6 +2,18 @@ package modelo.entidad;
 
 import java.util.Objects;
 
+/**
+ * Clase que representa un coche
+ * Cada coche tiene:
+ *     - id
+ *     - marca
+ *     - modelo
+ *     - fabricacion: año de fabricacion
+ *     - km: numero de km
+ * 
+ * Esta clase se utiliza para mapear la tabla coches de la base de datos
+ * 
+ */
 public class Coche {
 	int id;
 	String marca;

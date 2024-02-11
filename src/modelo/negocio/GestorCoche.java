@@ -6,9 +6,10 @@ import modelo.entidad.Coche;
 import modelo.persistencia.DaoCocheMySql;
 import modelo.persistencia.interfaces.DaoCoche;
 
-//Aquí irian todas las reglas de negocio de nuestra aplicacion, se aplicarían
-//antes de llamar a la BBDD. 
-
+/**
+ * Clase que gestiona los coches y sus reglas de negocio. Estas reglas se aplicarán antes de llamar a la BBDD
+ * 
+ */
 public class GestorCoche {
 	
 
@@ -35,19 +36,26 @@ public class GestorCoche {
 		}
 	}
 		
-	
+	/**
+	 * Método que da de baja un coche de la base de datos. La baja se hace a partir
+	 * del id del coche
+	 * 
+	 * @param id del coche a dar de baja
+	 * @return true en caso de que hayamos dado de baja al coche, false en caso de
+	 *         algun error de conexión con la bbdd
+	 */
 	public boolean baja(int id){
 		boolean baja = daoCoche.baja(id);
 		return baja;
 	}
 	
 	/**
-	 * Método que da modifica un coche en base de datos. La marcca y el modelo no pueden estar vacios
-	 * La modificarcion sera a partir del id del coche
+	 * Método que da modifica un coche en base de datos. La marca y el modelo no pueden estar vacios
+	 * La modificacion sera a partir del id del coche
 	 * @param c el coche a modificar. Dentro tiene que tener el id
 	 * @return 0 en caso de que hayamos modificado el coche, 
-	 * 1 en caso de algun error de conexion con la bbdd y 
-	 * 2 en caso de que la marca o el modelo esten vacios
+	 *         1 en caso de algun error de conexion con la bbdd y 
+	 *         2 en caso de que la marca o el modelo esten vacios
 	 */
 	public int modificar(Coche c){
 			//aplicamos la regla de negocio
@@ -62,15 +70,26 @@ public class GestorCoche {
 				return 2;
 			}
 		}
-	
-	public Coche obtener(int id){
-		Coche coche = daoCoche.obtener(id);
-		return coche;
-	}
-	
-	public List<Coche> listar(){
-		List<Coche> listaCoches = daoCoche.listar();
-		return listaCoches;
-	}
+
+		/**
+		 * Método que obtiene un coche de la base de datos a partir de su id
+		 * 
+		 * @param id del coche
+		 * @return el coche si lo encuentra, null si no lo encuentra
+		 */
+		public Coche obtener(int id){
+			Coche coche = daoCoche.obtener(id);
+			return coche;
+		}
+			
+		/**
+		 * Método que lista todos los coches de la base de datos
+		 * 
+		 * @return lista de coches
+		 */
+		public List<Coche> listar(){
+			List<Coche> listaCoches = daoCoche.listar();
+			return listaCoches;
+		}
 	
 }

@@ -2,6 +2,17 @@ package modelo.entidad;
 
 import java.util.Objects;
 
+/**
+ * Clase que representa un pasajero Cada pasajero tiene: 
+ *     - id 
+ *     - nombre 
+ *     - edad 
+ *     - peso 
+ *     - coche: el coche en el que viaja
+ * 
+ * Esta clase se utiliza para mapear la tabla pasajeros de la base de datos
+ * 
+ */
 public class Pasajero {
 	int id;
 	String nombre;

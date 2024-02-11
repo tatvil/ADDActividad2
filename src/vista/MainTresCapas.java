@@ -7,6 +7,14 @@ import modelo.entidad.Pasajero;
 import modelo.negocio.GestorCoche;
 import modelo.negocio.GestorPasajero;
 
+/**
+ * Clase que gestiona la vista de la aplicación
+ * mediante el uso de la consola de comandos de Java (System.out) y la entrada de datos (System.in)
+ * Presenta la dinamica de la interaccion con el usuario y recoge sus respuestas, 
+ * segun las opciones que se le presenten en el menu principal y el menu de pasajeros, realizara las acciones oportunas
+ * Se comunica con la capa de negocio y la capa de persistencia
+ * 
+ */
 public class MainTresCapas {
 
 	public static void main(String[] args) {
@@ -117,6 +125,9 @@ public class MainTresCapas {
 
 	}
 
+	/**
+	 * Método que muestra el menú principal de opciones de la aplicación
+	 */
 	private static void menu() {
 		System.out.println("Elija una opcion:");
 		System.out.println("1. Añadir nuevo coche");
@@ -128,6 +139,9 @@ public class MainTresCapas {
 		System.out.println("0. Terminar el programa");
 	}
 	
+	/**
+	 * Método que muestra el menú de opciones de la gestión de pasajeros
+	 */
 	private static void menuPasajeros() {
 		System.out.println("Elija una opcion:");
 		System.out.println("1. Crear nuevo pasajero");
@@ -140,6 +154,11 @@ public class MainTresCapas {
 		System.out.println("0. Atras (menu coches)");
 	}
 	
+	/**
+	 * Método que gestiona la vista de la aplicación para la gestión de pasajeros,
+	 * es decir, la creación, modificación, eliminación y listado de pasajeros
+	 * es llamado desde el menú principal
+	 */
 	private static void crudPasajeros() {
 		Scanner sp = new Scanner(System.in);
 		boolean finPasajeros = false;

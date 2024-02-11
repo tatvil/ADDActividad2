@@ -9,6 +9,11 @@ import modelo.persistencia.DaoPasajeroMySql;
 import modelo.persistencia.interfaces.DaoCoche;
 import modelo.persistencia.interfaces.DaoPasajero;
 
+/**
+ * Clase que gestiona los pasajeros y sus reglas de negocio. Estas reglas se
+ * aplicarán antes de llamar a la BBDD
+ * 
+ */
 public class GestorPasajero {
 private DaoPasajero daoPasajero = new DaoPasajeroMySql();
 private DaoCoche daoCoche = new DaoCocheMySql();
@@ -16,8 +21,9 @@ private DaoCoche daoCoche = new DaoCocheMySql();
 	/**
 	 * Método que da de alta un pasajero en base de datos. El id del pasajero debe de ser unico, pero lo gestiona la base de datos
 	 * @param p el pasajero a dar de alta
-	 * @return 0 en caso de que hayamos dado de alta al pasajero y 1 en caso
-	 * de algun error de conexión con la bbdd  y 2 en caso de que los datos del pasajero sean incorrectos
+	 * @return 0 en caso de que hayamos dado de alta al pasajero 
+	 * 1 en caso de algun error de conexión con la bbdd  
+	 * 2 en caso de que los datos del pasajero sean incorrectos
 	 */
 	public int alta(Pasajero p){
 			if(p.getNombre().length() > 0 && p.getEdad() >= 0 && p.getPeso() >= 0) {
@@ -32,6 +38,11 @@ private DaoCoche daoCoche = new DaoCocheMySql();
 			}
 		}
 	
+	/**
+	 * Método que da de baja un pasajero de la base de datos. La baja se hace a partir del id del pasajero
+	 * @param id id del pasajero a dar de baja
+	 * @return true en caso de que hayamos dado de baja al pasajero, false en caso de algun error de conexión con la bbdd
+	 */
 	public boolean baja(int id){
 		boolean baja = daoPasajero.baja(id);
 		return baja;
@@ -99,7 +110,6 @@ private DaoCoche daoCoche = new DaoCocheMySql();
 	 *  Método que lista todos los pasajeros de la base de datos
 	 * @return lista de pasajeros
 	 */
-	
 	public List<Pasajero> listar(){
 		List<Pasajero> listaPasajeros = daoPasajero.listar();
 		return listaPasajeros;
@@ -112,13 +122,17 @@ private DaoCoche daoCoche = new DaoCocheMySql();
 	 * @param idCoche id del coche
 	 * @return lista de pasajeros de ese coche
 	 */
-
-	
 	public List<Pasajero> listar(int idCoche) {
 		List<Pasajero> listaPasajeros = daoPasajero.listar(idCoche);
 		return listaPasajeros;
 	}
 	
+	/**
+	 * Método que comprueba si una cadena contiene solo letras
+	 * 
+	 * @param cadena
+	 * @return true si la cadena contiene solo letras, false en caso contrario
+	 */
 	public boolean contieneSoloLetras(String cadena) {
 	    // Expresión regular que coincide solo con letras del alfabeto (mayúsculas o minúsculas)
 	    String patron = "^[a-zA-Z]+$";

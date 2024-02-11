@@ -17,6 +17,16 @@ import modelo.entidad.Pasajero;
 import modelo.persistencia.interfaces.DaoCoche;
 import modelo.persistencia.interfaces.DaoPasajero;
 
+/**
+ * Clase que gestiona la persistencia de los pasajeros en la base de datos MySQL
+ * La clase implementa la interfaz DaoPasajero 
+ * Persistencia significa que seencarga de dar de alta, baja, modificar, obtener y listar pasajeros en la base de datos 
+ * La persistencia de los pasajeros se hará en una tabla llamada pasajeros 
+ * La tabla pasajeros tendrá los siguientes campos: id, nombre, edad, peso, id_coche 
+ * El id_coche es una clave foranea que hace referencia al id de la tabla coches
+ * La tabla pasajeros tendrá un campo id que será la clave primaria y se generará de manera automática
+ * 
+ */
 public class DaoPasajeroMySql implements DaoPasajero {
 	private Connection conexion;
 	

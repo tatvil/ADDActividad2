@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"crearbbdd"},{"l":"modelo.entidad"},{"l":"modelo.negocio"},{"l":"modelo.persistencia"},{"l":"modelo.persistencia.interfaces"},{"l":"vista"}];updateSearchResults();
