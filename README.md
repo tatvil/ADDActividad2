@@ -57,6 +57,8 @@ Se recomienda el uso de GITHUB para realizar el trabajo y dejar el código fuent
 
 ## IMPORTANTE
 Antes de utilizarlo, es necesario inicializar la base de datos. Para ello, debes activar XAMPP y ejecutar el programa "CrearMySQL.java", ubicado dentro del paquete "crearBBDD".
+
 Los datos de configuración de la base de datos se encuentran en el archivo "config.properties".
+
 Para ejecutar la actividad, simplemente ejecuta el archivo "MainTresCapas.java" ubicado en la carpeta "vista". Este archivo abrirá el menú con todas las opciones descritas en los requerimientos 1 y 2.
 
