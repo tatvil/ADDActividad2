@@ -69,12 +69,12 @@ private DaoCoche daoCoche = new DaoCocheMySql();
 		    if (p.getCoche() != null) {
 		    	// Verifica si el coche está dado de alta en la tabla de coches y el pasajero en la tabla de pasajeros
 		    
-	            Coche cocheExiste = daoCoche.obtener(p.getCoche().getId());
-
+//	            Coche cocheExiste = daoCoche.obtener(p.getCoche().getId());
+		    }
 			    // Si el coche no existe, devuelve un código de error
-			    if (cocheExiste == null) {
-			        return 3; // Código de error para coche o pasajero inexistente
-			    } else {   	  // Si el coche existe, se procede a modificar el pasajero
+//			    if (cocheExiste == null) {
+//			        return 3; // Código de error para coche o pasajero inexistente
+//			    } else {   	  // Si el coche existe, se procede a modificar el pasajero
 		            if(p.getNombre().length() > 0 || contieneSoloLetras(p.getNombre()) || p.getEdad() >= 0 || p.getPeso() >= 0) { // Comprueba que los datos del pasajero sean correctos
 			    
 						boolean modificada = daoPasajero.modificar(p);
@@ -86,10 +86,8 @@ private DaoCoche daoCoche = new DaoCocheMySql();
 					} else {
 							return 2;					// Datos del pasajero incorrectos
 					}
-			    }
-		} else {
-			return 4; // Código de error para coche inexistente
-		}
+//			    }
+
     } else {
     	        return 3; // Código de error para pasajero inexistente
     }

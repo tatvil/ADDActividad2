@@ -257,20 +257,26 @@ public class MainTresCapas {
 					break;
 					
 				case 6:
-					System.out.println("6. ELIMINAR PASAJERO DE COCHE");
-					System.out.println("Introduzca el id del pasajero");
-					idPasajero = sp.nextInt();
+				    System.out.println("6. ELIMINAR PASAJERO DE COCHE");
+				    System.out.println("Introduzca el id del pasajero");
+				    idPasajero = sp.nextInt();
 
-					p = gp.obtener(idPasajero);
-					p.setCoche(null);
+				    p = new Pasajero();
+				    gp = new GestorPasajero();
 
-					modificado = gp.modificar(p);
-					if (modificado == 0) {
-						System.out.println("Coche modificado");
-					} else {
-						System.out.println("Error no se ha podido modificar el registro");
-					}
-					break;
+				    p = gp.obtener(idPasajero);
+				    if (p != null) {
+				        p.setCoche(null); // Eliminar la asociación del pasajero con el coche
+				        modificado = gp.modificar(p);
+				        if (modificado == 0) {
+				            System.out.println("Pasajero " + idPasajero + " eliminado del coche.");
+				        } else {
+				            System.out.println("Error: No se ha podido eliminar el pasajero del coche." + p);
+				        }
+				    } else {
+				        System.out.println("Error: Pasajero con ID " + idPasajero + " no encontrado.");
+				    }
+				    break;
 					
 				case 7:
 					System.out.println("7. LISTAR PASAJEROS DE UN COCHE");

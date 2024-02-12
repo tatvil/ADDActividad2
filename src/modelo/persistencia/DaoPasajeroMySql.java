@@ -152,7 +152,8 @@ public class DaoPasajeroMySql implements DaoPasajero {
 			ps.setString(1, p.getNombre());
 			ps.setInt(2, p.getEdad());
 			ps.setInt(3, p.getPeso());
-			ps.setObject(4, p.getCoche().getId());
+			if (p.getCoche()!= null) ps.setObject(4, p.getCoche().getId());
+			else ps.setObject(4, null);
 			ps.setInt(5, p.getId());
 			
 			int numeroFilasAfectadas = ps.executeUpdate();
